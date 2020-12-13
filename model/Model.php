@@ -83,12 +83,13 @@ class Model implements iModel
     }
 
 
-    public function all($fields = null, $order = null)
+    public function all($fields = null, $order = null, $limit = null)
     {
         $qb = new QueryBuilder(Database::getDB($this->drive));
         return $qb->table($this->table)
             ->fields($fields ?? ['*'])
             ->order($order)
+            ->limit($limit)
             ->select();
     }
 

@@ -3,7 +3,7 @@
 namespace elzobrito\Model;
 
 use elzobrito\QueryBuilder;
-use elzobrito\Config\Database;
+use Lib\Database;
 use elzobrito\Model as iModel;
 
 class Model implements iModel

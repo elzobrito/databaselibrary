@@ -57,13 +57,13 @@ class Model implements iModel
             ->insert(($valores ?? $this->values()));
     }
 
-    public function delete()
+    public function delete($id = null, $primaryKey = null)
     {
-        if (isset($this->id)) {
+        if ($id ?? $this->id) {
             $qb = new QueryBuilder(Database::getDB($this->drive));
             return $qb
                 ->table($this->table)
-                ->where(['id = ?'])
+                ->where([($primaryKey ?? 'id') . ' = ?'])
                 ->delete([$this->id]);
         }
     }

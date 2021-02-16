@@ -2,8 +2,8 @@
 
 namespace elzobrito\Model;
 
+use elzobrito\Config\Database;
 use elzobrito\QueryBuilder;
-use Lib\Database;
 use elzobrito\Model as iModel;
 
 class Model implements iModel
@@ -59,10 +59,9 @@ class Model implements iModel
 
     public function delete($id = null, $primaryKey = null)
     {
-        if ($id ?? $this->id) {
+        if ($id || $this->id) {
             $qb = new QueryBuilder(Database::getDB($this->drive));
-            return $qb
-                ->table($this->table)
+            return $qb->table($this->table)
                 ->where([($primaryKey ?? 'id') . ' = ?'])
                 ->delete([$this->id]);
         }
@@ -83,13 +82,11 @@ class Model implements iModel
     }
 
 
-    public function all($fields = null, $order = null, $limit = null)
+    public function all($fields= null)
     {
         $qb = new QueryBuilder(Database::getDB($this->drive));
         return $qb->table($this->table)
-            ->fields($fields ?? ['*'])
-            ->order($order)
-            ->limit($limit)
+            ->fields($fields??['*'])
             ->select();
     }
 
@@ -128,10 +125,7 @@ class Model implements iModel
         return $array;
     }
 
-    /**
-     * Este método é utilizado para pegar parametros criptografados via POST
-     * Então você pode criar o método decryptIt para fazer essa descriptografia. 
-     */
+
     public function request_cripto()
     {
         $val_temp = null;

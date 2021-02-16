@@ -10,8 +10,8 @@
   "autoload": {
     "psr-4": {
       "elzobrito\\": "src",
-      "elzobrito\\Model\\": "model",
-      "elzobrito\\Config\\": "config",
+      "Model\\": "model",
+      "Config\\": "config",
       "Publico\\": "public_html"
     }
   },

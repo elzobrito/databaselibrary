@@ -62,7 +62,7 @@ class QueryBuilder extends Connection
         $fields = implode(', ', $_fields);
 
         // cria uma lista de rótulos para usar "prepared statement"
-        $_placeholders = array_map(function () {
+        $_placeholders = array_map(function() {
             return '?';
         }, $_fields);
         $placeholders = implode(', ', $_placeholders);
@@ -77,7 +77,8 @@ class QueryBuilder extends Connection
         // INSERT INTO {table} ({fields}) VALUES ({values});
         // junta o comando
         $sql = implode(' ', $command);
-
+        // echo $sql;
+        // print_r($values);
         return $this->executeInsert($sql, $values);
     }
 
@@ -100,17 +101,14 @@ class QueryBuilder extends Connection
         $preSelect = isset($this->clausules['pre']) ? $this->clausules['pre'] : '';
 
         $command = [];
-
-        if ($preSelect)
-            $command[] = $preSelect;
-
+        $command[] = $preSelect;
         $command[] = 'SELECT';
         $command[] = $fields;
         $command[] = 'FROM';
         $command[] = $table;
-
-        if ($join)
+        if ($join) {
             $command[] = $join;
+        }
 
         $clausules = [
             'where' => [
@@ -134,7 +132,7 @@ class QueryBuilder extends Connection
                 'separator' => ',',
             ],
         ];
-        foreach ($clausules as $key => $clausule) {
+        foreach($clausules as $key => $clausule) {
             if (isset($this->clausules[$key])) {
                 $value = $this->clausules[$key];
                 if (is_array($value)) {
@@ -147,7 +145,6 @@ class QueryBuilder extends Connection
         // SELECT {fields} FROM <JOIN> {table} <WHERE> <GROUP> <ORDER> <HAVING> <LIMIT>;
         // junta o comando
         $sql = implode(' ', $command);
-
         return $this->executeSelect($sql, $values);
     }
 
@@ -170,7 +167,7 @@ class QueryBuilder extends Connection
 
         $sets = $_fields;
         if (is_array($_fields)) {
-            $sets = implode(', ', array_map(function ($value) {
+            $sets = implode(', ', array_map(function($value) {
                 return $value . ' = ?';
             }, $_fields));
         }
@@ -190,7 +187,7 @@ class QueryBuilder extends Connection
                 'separator' => ' ',
             ]
         ];
-        foreach ($clausules as $key => $clausule) {
+        foreach($clausules as $key => $clausule) {
             if (isset($this->clausules[$key])) {
                 $value = $this->clausules[$key];
                 if (is_array($value)) {
@@ -232,7 +229,7 @@ class QueryBuilder extends Connection
                 'separator' => ' ',
             ]
         ];
-        foreach ($clausules as $key => $clausule) {
+        foreach($clausules as $key => $clausule) {
             if (isset($this->clausules[$key])) {
                 $value = $this->clausules[$key];
                 if (is_array($value)) {

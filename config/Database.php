@@ -6,12 +6,14 @@ use elzobrito\ADatabase;
 
 class Database extends ADatabase
 {
-    //put your code here
+    /*
+    * Exemplo de uso do database
+    */
 
-    public static function getDB($name = null)
+    public static function getDB($driver = null)
     {
         $db = null;
-        switch ($name) {
+        switch ($driver) {
             case 'mysql':
                 $db = [
                     'host' => '',
@@ -19,6 +21,7 @@ class Database extends ADatabase
                     'database' => '',
                     'user' => '',
                     'password' => '',
+                    'driver' => ''
                 ];
                 break;
             default:
@@ -28,6 +31,7 @@ class Database extends ADatabase
                     'database' => '',
                     'user' => '',
                     'password' => '',
+                    'driver' => ''
                 ];
                 break;
         }

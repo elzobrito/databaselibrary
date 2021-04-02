@@ -41,11 +41,11 @@ class Connection
             try {
                 $options = array(
                     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES "UTF8"',
-                    PDO::MYSQL_ATTR_SSL_CA => __DIR__ . DIRECTORY_SEPARATOR . 'BaltimoreCyberTrustRoot.crt.pem'
+                    // PDO::MYSQL_ATTR_SSL_CA => __DIR__ . DIRECTORY_SEPARATOR . 'BaltimoreCyberTrustRoot.crt.pem'
                 );
                 $this->pdo = new PDO($this->dsn(), $this->options['user'], $this->options['password'], $options);
                 // set the PDO error mode to exception
-                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                // $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 $this->status = "Falha ao tentar conectar: \n" . $e->getMessage();
             }
@@ -67,7 +67,6 @@ class Connection
      */
     private final function statement($sql)
     {
-
         try {
             return $this->connect()->prepare($sql);
         } catch (PDOException $e) {

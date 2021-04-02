@@ -59,11 +59,13 @@ class Model implements iModel
 
     public function delete($id = null, $primaryKey = null)
     {
-        if ($id || $this->id) {
+        if ($id || isset($this->id)) {
+            $value = $id??isset($this->id);
             $qb = new QueryBuilder(Database::getDB($this->drive));
-            return $qb->table($this->table)
+            return $qb
+                ->table($this->table)
                 ->where([($primaryKey ?? 'id') . ' = ?'])
-                ->delete([$this->id]);
+                ->delete([$value]);
         }
     }
 
@@ -71,7 +73,7 @@ class Model implements iModel
     {
         $qb = new QueryBuilder(Database::getDB($this->drive));
         return $qb->table($this->table)
-            ->fields($fields)
+            ->fields($fields ?? ['*'])
             ->where($wheres)
             ->join($join)
             ->group($group)
@@ -82,11 +84,13 @@ class Model implements iModel
     }
 
 
-    public function all($fields= null)
+    public function all($fields = null, $order = null, $limit = null)
     {
         $qb = new QueryBuilder(Database::getDB($this->drive));
         return $qb->table($this->table)
-            ->fields($fields??['*'])
+            ->fields($fields ?? ['*'])
+            ->order($order)
+            ->limit($limit)
             ->select();
     }
 
@@ -104,11 +108,11 @@ class Model implements iModel
             ->select($values);
     }
 
-    public function findForId($id, $primaryKey = null)
+    public function findForId($id, $primaryKey = null,$fields = null)
     {
         $qb = new QueryBuilder(Database::getDB($this->drive));
         return $qb->table($this->table)
-            ->fields(['*'])
+            ->fields($fields ?? ['*'])
             ->where([($primaryKey ?? 'id') . ' = ?'])
             ->select([$id]);
     }

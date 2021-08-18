@@ -108,15 +108,18 @@ class Model implements iModel
             ->select($values);
     }
 
-    public function findForId($id, $primaryKey = null,$fields = null)
+    public function findForId($id, $primaryKey = null, $fields = null, $join = null, $order = null, $limit = null)
     {
         $qb = new QueryBuilder(Database::getDB($this->drive));
         return $qb->table($this->table)
             ->fields($fields ?? ['*'])
             ->where([($primaryKey ?? 'id') . ' = ?'])
+            ->join($join)
+            ->order($order)
+            ->limit($limit)
             ->select([$id]);
     }
-
+    
     public function values()
     {
         $filds = [];

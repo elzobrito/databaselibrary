@@ -65,7 +65,7 @@ class Connection
      * @param $sql
      * @return PDOStatement
      */
-    private final function statement($sql)
+    protected final function statement($sql)
     {
         try {
             return $this->connect()->prepare($sql);
